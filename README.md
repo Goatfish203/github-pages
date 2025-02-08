@@ -1,4 +1,84 @@
-<header>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pacific Northwest Radar</title>
+    <style>
+        body {
+            margin: 0;
+            background-color: black;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+        .container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 75%;
+            height: 75%;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            font-size: 3vw;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            border-radius: 15px;
+        }
+    </style>
+    <script>
+        function reloadImage() {
+            let radarImage = document.getElementById('radar');
+            radarImage.src = "https://atmos.uw.edu/current-weather/northwest-radar/latest-radar.gif?timestamp=" + new Date().getTime();
+        }
+
+        function updateTimestamp() {
+            let timestampElement = document.getElementById('timestamp');
+            let now = new Date();
+            timestampElement.innerText = now.toLocaleString();
+        }
+
+        function playSilentAudio() {
+            let audio = document.getElementById("silentAudio");
+            audio.volume = 0; // Ensure it's inaudible
+            audio.play().catch(error => console.log("Autoplay failed:", error));
+        }
+
+        setInterval(reloadImage, 300000); // Refresh radar every 5 minutes
+        setInterval(updateTimestamp, 1000); // Update timestamp every second
+
+        // Try to start the audio when the page loads
+        window.onload = playSilentAudio;
+    </script>
+</head>
+<body>
+    <div class="container">
+        <img id="radar" src="https://atmos.uw.edu/current-weather/northwest-radar/latest-radar.gif" alt="Pacific Northwest Radar">
+        <div class="overlay" id="timestamp">Loading time...</div>
+    </div>
+
+    <!-- Silent audio to keep Silk browser active -->
+    <audio id="silentAudio" loop>
+        <source src="silent.mp3" type="audio/mp3">
+    </audio>
+</body>
+</html>
 
 <!--
   <<< Author notes: Course header >>>
